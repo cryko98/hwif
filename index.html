@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$HWIF - HalloWIF: Dog Wif Pumpkin Hat</title>
-    <link rel="icon" type="image/png" href="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360">
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load spooky Google Font (Creepster for headings, Inter for body text) -->
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- ADDED: Favicon -->
+    <link rel="icon" type="image/png" href="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360">
     <style>
+        /* ADDED: Dexscreener Embed Styles */
+        #dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}
+        
         /* Custom font application and general dark theme */
         body {
             /* Set background to the requested orange */
@@ -70,11 +74,6 @@
              transform: scale(1.05);
         }
 
-        /* Removed .nav-link and .ticker-color classes. 
-           Colors are now applied directly in the HTML using Tailwind classes 
-           (e.g., text-orange-500) for better visibility and easier maintenance.
-        */
-
         /* Responsive adjustments for banner on smaller screens */
         @media (max-width: 768px) {
             .banner {
@@ -109,8 +108,10 @@
                 <!-- Nav Link colors changed to text-orange-500 for visibility -->
                 <a href="#about" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">About</a>
                 <a href="#how-to-buy" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">How to Buy</a>
-                <!-- X.com Link Placeholder -->
-                <a href="https://x.com/i/communities/1982098307057844298" class="text-orange-500 hover:text-white transition duration-200 p-1.5 rounded-md hover:bg-orange-800/40" aria-label="Follow us on X">
+                <!-- ADDED: Chart Link -->
+                <a href="#chart" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">Chart</a>
+                <!-- UPDATED: X.com Link -->
+                <a href="https://x.com/i/communities/1982098307057844298" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-white transition duration-200 p-1.5 rounded-md hover:bg-orange-800/40" aria-label="Follow us on X">
                     <!-- X Logo (Color inherits from <a> tag) -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M18.901 1.144h3.582l-7.98 9.176 9.68 12.015h-8.24l-6.19-7.724-7.53 7.724H.742l8.3-8.525L.194 1.144h8.422l5.445 6.442 5.04-6.442zm-1.16 2.013L9.123 20.37h1.996l8.62-10.428-1.996-2.013z"/>
@@ -122,7 +123,7 @@
             <div class="mt-4 md:mt-0 text-right w-full md:w-auto">
                 <!-- Contract address label remains light gray for readability -->
                 <p class="text-sm font-light text-gray-400">Solana Contract Address:</p>
-                <!-- Address code color changed to text-orange-500 for visibility -->
+                <!-- UPDATED: Address code color changed to text-orange-500 and CA updated -->
                 <code id="contract-address" class="block p-2 text-xs sm:text-sm md:text-base bg-orange-900/40 rounded-lg cursor-pointer hover:bg-orange-800/60 transition duration-300 shadow-inner text-orange-500" onclick="copyContractAddress()">
                     GMRMTNXrJJjD9mqBShwgy26XdZRTbamwWxNV1muXpump
                 </code>
@@ -151,7 +152,7 @@
         </section>
         
         <!-- How to Buy Section -->
-        <section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12 text-gray-200">
+        <section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12 text-gray-200 mb-12">
             <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
                 How to Summon $HWIF (4 Simple Steps)
             </h2>
@@ -163,7 +164,7 @@
                     <h3 class="inline text-3xl font-bold text-white/90">Get a Solana Wallet</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         First, secure your spiritual holdings! Download Phantom, Solflare, or any Solana-compatible wallet. This is where your $HWIF will rest (or haunt).
-                    </D>
+                    </p>
                 </li>
                 
                 <!-- Step 2 -->
@@ -193,6 +194,15 @@
                     </p>
                 </li>
             </ol>
+        </section>
+
+        <!-- ADDED: Dexscreener Chart Section -->
+        <section id="chart" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200">
+            <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
+                Live Chart
+            </h2>
+            <!-- User's Embed Code - UPDATED iframe src to match new CA -->
+            <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/GMRMTNXrJJjD9mqBShwgy26XdZRTbamwWxNV1muXpump?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
         </section>
 
         <!-- Footer -->
