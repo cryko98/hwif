@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$HWIF - HalloWIF: Dog Wif Pumpkin Hat</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load spooky Google Font (Creepster for headings, Inter for body text) -->
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <!-- ADDED: Favicon -->
-    <link rel="icon" type="image/png" href="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360">
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load spooky Google Font (Creepster for headings, Inter for body text) --><link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- ADDED: Favicon --><link rel="icon" type="image/png" href="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360">
+    <!-- ADDED: Tone.js for audio synthesis --><script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <style>
         /* ADDED: Dexscreener Embed Styles */
         #dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}
@@ -80,54 +78,108 @@
                 height: 200px;
             }
         }
+
+        /* --- ADDED: Spooky Jumpscare Effect CSS --- */
+        @keyframes shake {
+          0%, 100% { transform: translate(0, 0); }
+          25% { transform: translate(-2px, 2px) rotate(-0.5deg); }
+          50% { transform: translate(2px, -2px) rotate(0.5deg); }
+          75% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+        }
+        
+        .shake-active {
+          animation: shake 0.1s 30; 
+        }
+        
+        /* REMOVED: .mono-active style */
+
+        /* UPDATED: Spooky Overlay for Jumpscare Image and Lightning */
+        #spooky-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000; /* Above everything */
+            pointer-events: none; /* Can't click it */
+            display: flex; /* Use flexbox to center image */
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; /* Start transparent, lightning will change it */
+            overflow: hidden; /* Ensure image doesn't overflow */
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.1s ease-in-out; /* Smooth fade in/out for opacity */
+        }
+
+        #spooky-overlay.spooky-active {
+            opacity: 1; /* Make visible */
+            pointer-events: all; /* Allow interaction during effect if needed, though 'none' is better for jumpscare */
+            animation: lightning-darkness 0.5s 6 forwards; /* Keep lightning for 3s */
+        }
+
+        #jumpscare-image {
+            width: 100%;   /* UPDATED: Fill full width */
+            height: 100%;  /* UPDATED: Fill full height */
+            object-fit: cover; /* UPDATED: Cover the entire area */
+            transform: scale(0.1); /* Start small */
+            opacity: 0; /* Hidden by default */
+            transition: transform 0.05s ease-out, opacity 0.05s ease-out; /* Much quicker zoom and fade */
+        }
+
+        #jumpscare-image.active {
+            transform: scale(1); /* Zoom to full size */
+            opacity: 1; /* Make visible */
+        }
+        
+        @keyframes lightning-darkness {
+            0%   { background-color: rgba(0,0,0,0.85); }
+            15%  { background-color: rgba(200,200,255,0.6); } /* White flash */
+            20%  { background-color: rgba(0,0,0,0.9); }
+            35%  { background-color: rgba(0,0,0,0.8); }
+            50%  { background-color: rgba(220,220,255,0.7); } /* White flash */
+            55%  { background-color: rgba(0,0,0,0.95); }
+            70%  { background-color: rgba(0,0,0,0.85); }
+            85%  { background-color: rgba(200,200,255,0.6); } /* White flash */
+            90%  { background-color: rgba(0,0,0,0.9); }
+            100% { background-color: rgba(0,0,0,0.85); }
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Flying Bat Emojis (Visual effect layer) -->
-    <!-- The bats are dynamically added by the JavaScript block below -->
-    <div class="bat-layer"></div>
+    <!-- RE-ADDED: Overlay for spooky effect --><div id="spooky-overlay">
+        <!-- ADDED: Jumpscare Image inside overlay --><img id="jumpscare-image" src="https://pbs.twimg.com/media/G4HpE2rXcAAoFPg?format=jpg&name=small" alt="Jumpscare">
+    </div>
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-50 bg-black/95 backdrop-blur-sm shadow-2xl shadow-orange-900/50 border-b border-orange-700/50 p-4">
+    <!-- Flying Bat Emojis (Visual effect layer) --><!-- The bats are dynamically added by the JavaScript block below --><div class="bat-layer"></div>
+
+    <!-- Header / Navbar --><header class="sticky top-0 z-50 bg-black/95 backdrop-blur-sm shadow-2xl shadow-orange-900/50 border-b border-orange-700/50 p-4">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
 
-            <!-- Logo and Ticker -->
-            <div class="flex items-center space-x-3 mb-4 md:mb-0">
+            <!-- Logo and Ticker --><div class="flex items-center space-x-3 mb-4 md:mb-0">
                 <div class="logo-container flex-shrink-0">
                     <img src="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360" alt="HWIF Logo - Dog with Pumpkin Hat" class="w-full h-full object-cover">
                 </div>
-                <!-- H1 color changed to text-orange-500 for visibility -->
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-orange-500 tracking-widest uppercase">
+                <!-- H1 color changed to text-orange-500 for visibility --><h1 class="text-3xl sm:text-4xl font-extrabold text-orange-500 tracking-widest uppercase">
                     $HWIF
                 </h1>
             </div>
             
-            <!-- Navigation Links -->
-            <nav class="flex flex-wrap justify-center space-x-2 sm:space-x-4">
-                <!-- Nav Link colors changed to text-orange-500 for visibility -->
-                <!-- UPDATED: Font size from text-lg to text-base sm:text-lg for better mobile wrapping -->
-                <a href="#about" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">About</a>
+            <!-- Navigation Links --><nav class="flex flex-wrap justify-center space-x-2 sm:space-x-4">
+                <!-- Nav Link colors changed to text-orange-500 for visibility --><!-- UPDATED: Font size from text-lg to text-base sm:text-lg for better mobile wrapping --><a href="#about" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">About</a>
                 <a href="#how-to-buy" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">How to Buy</a>
-                <!-- ADDED: Chart Link -->
-                <a href="#chart" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">Chart</a>
-                <!-- ADDED: Memes Link -->
-                <a href="#memes" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">Memes</a>
-                <!-- UPDATED: X.com Link -->
-                <a href="https://x.com/i/communities/1982098307057844298" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-white transition duration-200 p-1.5 rounded-md hover:bg-orange-800/40" aria-label="Follow us on X">
-                    <!-- X Logo (Color inherits from <a> tag) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <!-- ADDED: Chart Link --><a href="#chart" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">Chart</a>
+                <!-- ADDED: Memes Link --><a href="#memes" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">Memes</a>
+                <!-- UPDATED: X.com Link --><a href="https://x.com/i/communities/1982098307057844298" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-white transition duration-200 p-1.5 rounded-md hover:bg-orange-800/40" aria-label="Follow us on X">
+                    <!-- X Logo (Color inherits from <a> tag) --><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M18.901 1.144h3.582l-7.98 9.176 9.68 12.015h-8.24l-6.19-7.724-7.53 7.724H.742l8.3-8.525L.194 1.144h8.422l5.445 6.442 5.04-6.442zm-1.16 2.013L9.123 20.37h1.996l8.62-10.428-1.996-2.013z"/>
                     </svg>
                 </a>
             </nav>
 
-            <!-- Contract Address -->
-            <div class="mt-4 md:mt-0 text-right w-full md:w-auto">
-                <!-- Contract address label remains light gray for readability -->
-                <p class="text-sm font-light text-gray-400">Solana Contract Address:</p>
-                <!-- UPDATED: Address code color changed to text-orange-500 and CA updated -->
-                <code id="contract-address" class="block p-2 text-xs sm:text-sm md:text-base bg-orange-900/40 rounded-lg cursor-pointer hover:bg-orange-800/60 transition duration-300 shadow-inner text-orange-500" onclick="copyContractAddress()">
+            <!-- Contract Address --><div class="mt-4 md:mt-0 text-right w-full md:w-auto">
+                <!-- Contract address label remains light gray for readability --><p class="text-sm font-light text-gray-400">Solana Contract Address:</p>
+                <!-- UPDATED: Address code color changed to text-orange-500 and CA updated --><code id="contract-address" class="block p-2 text-xs sm:text-sm md:text-base bg-orange-900/40 rounded-lg cursor-pointer hover:bg-orange-800/60 transition duration-300 shadow-inner text-orange-500" onclick="copyContractAddress()">
                     GMRMTNXrJJjD9mqBShwgy26XdZRTbamwWxNV1muXpump
                 </code>
             </div>
@@ -135,72 +187,62 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto p-4 sm:p-8 relative z-10">
+    <!-- Main Content --><main class="max-w-7xl mx-auto p-4 sm:p-8 relative z-10">
 
-        <!-- Banner Section -->
-        <section class="banner w-full rounded-xl overflow-hidden mb-12 shadow-2xl shadow-orange-900/80"></section>
+        <!-- Banner Section --><section class="banner w-full rounded-xl overflow-hidden mb-12 shadow-2xl shadow-orange-900/80"></section>
 
-        <!-- About Section -->
-        <section id="about" class="text-center py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 mb-12 text-gray-200">
+        <!-- About Section --><section id="about" class="text-center py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 mb-12 text-gray-200">
             <h2 class="text-5xl sm:text-7xl mb-4 font-bold text-[#FF4500] uppercase tracking-wide animate-pulse">
                 HalloWIF: Dog Wif Pumpkin Hat
             </h2>
             <p class="text-2xl sm:text-3xl mt-6 max-w-4xl mx-auto leading-relaxed">
                 In the darkest, spookiest corners of the Solana blockchain, the legend of Dog Wif Hat evolved. Forget the beanie—<span class="text-[#FFA500]">$HWIF</span> is here, ready to haunt your portfolio with pumpkin spice volatility!
-            </sppan>
+            </p>
             <p class="text-xl sm:text-2xl text-[#FF8C00] mt-4 max-w-3xl mx-auto italic font-normal">
                 This isn't just a coin; it's a costume party for your crypto, starring a Shiba Inu that's gone full Jack-o'-lantern. Get in, we're going trick-or-treating... for lambos.
             </p>
+
+            <!-- ADDED: Spooky Button --><button id="scare-button" class="mt-8 px-8 py-3 text-2xl font-bold uppercase text-black bg-[#FF4500] rounded-full shadow-lg hover:shadow-2xl hover:bg-red-700 transition duration-300 transform hover:scale-105 border-4 border-black font-['Creepster',cursive] tracking-wider">
+                TRY NOT TO SCREAM
+            </button>
+
         </section>
         
-        <!-- MOVED & UPDATED: Memes Section -->
-        <section id="memes" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200 mb-12">
-            <!-- UPDATED: Title -->
-            <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
+        <!-- MOVED & UPDATED: Memes Section --><section id="memes" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200 mb-12">
+            <!-- UPDATED: Title --><h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
                 HALLOWIF MEMES
             </h2>
-            <!-- Responsive Grid for Memes -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+            <!-- Responsive Grid for Memes --><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
                 
-                <!-- Meme 1 -->
-                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- Meme 1 --><div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <img src="https://pbs.twimg.com/media/G4HjY_ZXcAAJ1Fi?format=jpg&name=240x240" alt="HWIF Meme 1" class="w-full h-auto object-cover">
                 </div>
-                <!-- Meme 2 -->
-                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- Meme 2 --><div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <img src="https://pbs.twimg.com/media/G4Hjli9X0AAnmBz?format=jpg&name=240x240" alt="HWIF Meme 2" class="w-full h-auto object-cover">
                 </div>
-                <!-- Meme 3 -->
-                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- Meme 3 --><div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <img src="https://pbs.twimg.com/media/G4HjvakXEAE9n9a?format=jpg&name=240x240" alt="HWIF Meme 3" class="w-full h-auto object-cover">
                 </div>
-                <!-- Meme 4 (Duplicate URL as requested) -->
-                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- Meme 4 (Duplicate URL as requested) --><div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <img src="https://pbs.twimg.com/media/G4HkGXaWAAAkJSj?format=jpg&name=240x240" alt="HWIF Meme 4" class="w-full h-auto object-cover">
                 </div>
-                <!-- REMOVED: Meme 5 was here -->
-                <!-- Meme 6 -->
-                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- REMOVED: Meme 5 was here --><!-- Meme 6 --><div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <img src="https://pbs.twimg.com/media/G4HkSIzXEAAefKu?format=jpg&name=240x240" alt="HWIF Meme 6" class="w-full h-auto object-cover">
                 </div>
-                <!-- Meme 7 -->
-                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- Meme 7 --><div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <img src="https://pbs.twimg.com/media/G4HkdypWEAAaTCj?format=jpg&name=240x240" alt="HWIF Meme 7" class="w-full h-auto object-cover">
                 </div>
 
             </div>
         </section>
 
-        <!-- How to Buy Section -->
-        <section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12 text-gray-200 mb-12">
+        <!-- How to Buy Section --><section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12 text-gray-200 mb-12">
             <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
                 How to Summon $HWIF (4 Simple Steps)
             </h2>
             
             <ol class="space-y-8 max-w-4xl mx-auto text-left">
-                <!-- Step 1 -->
-                <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
+                <!-- Step 1 --><li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
                     <span class="text-3xl font-extrabold text-[#FF4500] mr-4">1.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Get a Solana Wallet</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
@@ -208,8 +250,7 @@
                     </p>
                 </li>
                 
-                <!-- Step 2 -->
-                <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
+                <!-- Step 2 --><li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
                     <span class="text-3xl font-extrabold text-[#FF4500] mr-4">2.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Acquire the $SOL Sacrifice</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
@@ -217,8 +258,7 @@
                     </p>
                 </li>
                 
-                <!-- Step 3 -->
-                <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
+                <!-- Step 3 --><li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
                     <span class="text-3xl font-extrabold text-[#FF4500] mr-4">3.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Visit the Underworld Exchange</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
@@ -226,39 +266,34 @@
                     </p>
                 </li>
 
-                <!-- Step 4 -->
-                <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
+                <!-- Step 4 --><li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
                     <span class="text-3xl font-extrabold text-[#FF4500] mr-4">4.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Swap for the Pumpkin</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         Paste the official contract address (found in the header) into the swap field. Select the amount of $SOL you wish to exchange and click 'Swap'. Welcome to the $HWIF haunting!
-                    </sppan>
+                    </p>
                 </li>
             </ol>
         </section>
 
-        <!-- ADDED: Dexscreener Chart Section -->
-        <section id="chart" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200 mb-12">
+        <!-- ADDED: Dexscreener Chart Section --><section id="chart" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200 mb-12">
             <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
                 Live Chart
             </h2>
-            <!-- User's Embed Code - UPDATED iframe src to match new CA -->
-            <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/GMRMTNXrJJjD9mqBShwgy26XdZRTbamwWxNV1muXpump?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
+            <!-- User's Embed Code - UPDATED iframe src to match new CA --><div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/GMRMTNXrJJjD9mqBShwgy26XdZRTbamwWxNV1muXpump?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
         </section>
 
-        <!-- MOVED: Memes Section was here -->
-
-        <!-- Footer -->
-        <footer class="mt-12 text-center text-sm text-gray-900 p-4 border-t border-orange-900/50">
+        <!-- MOVED: Memes Section was here --><!-- Footer --><footer class="mt-12 text-center text-sm text-gray-900 p-4 border-t border-orange-900/50">
             <p class="text-black/70">&copy; 2025 HWIF. All rights reserved. Trade at your own fright.</p>
         </footer>
 
     </main>
 
     <script>
-        // --- Bat Animation Logic ---
-        // Generates and inserts 30 bat emojis with unique animation styles
+        // --- Bat Animation Logic & Spooky Effect ---
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Bat Logic ---
             const batLayer = document.querySelector('.bat-layer');
             const batCount = 30;
             const styleSheet = document.createElement('style');
@@ -278,7 +313,6 @@
                 const opacity = 0.5 + Math.random() * 0.5; // 0.5 to 1.0
 
                 // Define fly path coordinates (from -50 to 150 to ensure off-screen travel)
-                // This ensures bats start and end off-screen
                 const startX = -50 + Math.random() * 150;
                 const startY = -50 + Math.random() * 150;
                 const midX = -50 + Math.random() * 150;
@@ -309,6 +343,74 @@
 
             styleSheet.innerHTML = batStyles;
             document.head.appendChild(styleSheet);
+
+            // --- ADDED: Spooky Effect Logic ---
+            
+            // --- UPDATED: Init Spooky Sound (More intense "scream") ---
+            
+            // 1. Distortion and Master Effect (Pitch Shift)
+            const pitchShift = new Tone.PitchShift(-8).toDestination(); // Less of a drop, keeps it higher
+            const distortion = new Tone.Distortion(0.9).connect(pitchShift); // More distortion
+
+            // 2. The "Pitched" part of the scream (éles hang)
+            const screamOsc = new Tone.Oscillator({
+                type: 'sawtooth', // 'sawtooth' is much harsher than 'sine'
+                frequency: 1000, // Start higher
+                volume: -6 // A bit quieter to make room for noise
+            }).connect(distortion);
+
+            // 3. The "Air/Noise" part of the scream (zaj)
+            const screamNoise = new Tone.NoiseSynth({
+                noise: { type: 'pink' }, // Pink noise is good for roars/screams
+                envelope: {
+                    attack: 0.01,
+                    decay: 0.3,
+                    sustain: 0
+                },
+                volume: -3
+            }).connect(distortion);
+
+
+            // Attach listener here, inside DOMContentLoaded
+            const scareButton = document.getElementById('scare-button');
+            const spookyOverlay = document.getElementById('spooky-overlay');
+            const jumpscareImage = document.getElementById('jumpscare-image'); // ADDED: Get image element
+            const body = document.body;
+            
+            if (scareButton && spookyOverlay && jumpscareImage) { // UPDATED: Check for image again
+                scareButton.addEventListener('click', () => {
+                    // Prevent stacking effects if already running
+                    if (body.classList.contains('shake-active')) return;
+
+                    // --- UPDATED: Play Sound (Scream) ---
+                    Tone.start(); // Must start AudioContext in response to user click
+                    
+                    // Trigger the pitched part
+                    screamOsc.frequency.setValueAtTime(1200, Tone.context.currentTime); // High pitch start
+                    screamOsc.frequency.exponentialRampTo(400, Tone.context.currentTime + 0.3); // Quick drop
+                    screamOsc.start().stop(Tone.context.currentTime + 0.3); // Play for 0.3s
+
+                    // Trigger the noise part
+                    screamNoise.triggerAttackRelease("0.3s");
+
+
+                    // Add visual classes to body (shake, no mono)
+                    body.classList.add('shake-active');
+                    // REMOVED: body.classList.add('mono-active'); 
+                    
+                    // Activate overlay and image
+                    spookyOverlay.classList.add('spooky-active');
+                    jumpscareImage.classList.add('active'); // ADDED: Activate image zoom
+                    
+                    // Remove classes after 3 seconds
+                    setTimeout(() => {
+                        body.classList.remove('shake-active');
+                        // REMOVED: body.classList.remove('mono-active'); 
+                        spookyOverlay.classList.remove('spooky-active');
+                        jumpscareImage.classList.remove('active'); // ADDED: Deactivate image zoom
+                    }, 3000); 
+                });
+            }
         });
         
         // --- Utility Functions ---
