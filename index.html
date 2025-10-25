@@ -104,12 +104,15 @@
             </div>
             
             <!-- Navigation Links -->
-            <nav class="flex space-x-4">
+            <nav class="flex flex-wrap justify-center space-x-2 sm:space-x-4">
                 <!-- Nav Link colors changed to text-orange-500 for visibility -->
-                <a href="#about" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">About</a>
-                <a href="#how-to-buy" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">How to Buy</a>
+                <!-- UPDATED: Font size from text-lg to text-base sm:text-lg for better mobile wrapping -->
+                <a href="#about" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">About</a>
+                <a href="#how-to-buy" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">How to Buy</a>
                 <!-- ADDED: Chart Link -->
-                <a href="#chart" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">Chart</a>
+                <a href="#chart" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">Chart</a>
+                <!-- ADDED: Memes Link -->
+                <a href="#memes" class="text-base sm:text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-2 py-1 rounded-md hover:bg-orange-800/40">Memes</a>
                 <!-- UPDATED: X.com Link -->
                 <a href="https://x.com/i/communities/1982098307057844298" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-white transition duration-200 p-1.5 rounded-md hover:bg-orange-800/40" aria-label="Follow us on X">
                     <!-- X Logo (Color inherits from <a> tag) -->
@@ -145,12 +148,50 @@
             </h2>
             <p class="text-2xl sm:text-3xl mt-6 max-w-4xl mx-auto leading-relaxed">
                 In the darkest, spookiest corners of the Solana blockchain, the legend of Dog Wif Hat evolved. Forget the beanie—<span class="text-[#FFA500]">$HWIF</span> is here, ready to haunt your portfolio with pumpkin spice volatility!
-            </p>
+            </sppan>
             <p class="text-xl sm:text-2xl text-[#FF8C00] mt-4 max-w-3xl mx-auto italic font-normal">
                 This isn't just a coin; it's a costume party for your crypto, starring a Shiba Inu that's gone full Jack-o'-lantern. Get in, we're going trick-or-treating... for lambos.
             </p>
         </section>
         
+        <!-- MOVED & UPDATED: Memes Section -->
+        <section id="memes" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200 mb-12">
+            <!-- UPDATED: Title -->
+            <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
+                HALLOWIF MEMES
+            </h2>
+            <!-- Responsive Grid for Memes -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+                
+                <!-- Meme 1 -->
+                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://pbs.twimg.com/media/G4HjY_ZXcAAJ1Fi?format=jpg&name=240x240" alt="HWIF Meme 1" class="w-full h-auto object-cover">
+                </div>
+                <!-- Meme 2 -->
+                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://pbs.twimg.com/media/G4Hjli9X0AAnmBz?format=jpg&name=240x240" alt="HWIF Meme 2" class="w-full h-auto object-cover">
+                </div>
+                <!-- Meme 3 -->
+                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://pbs.twimg.com/media/G4HjvakXEAE9n9a?format=jpg&name=240x240" alt="HWIF Meme 3" class="w-full h-auto object-cover">
+                </div>
+                <!-- Meme 4 (Duplicate URL as requested) -->
+                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://pbs.twimg.com/media/G4HkGXaWAAAkJSj?format=jpg&name=240x240" alt="HWIF Meme 4" class="w-full h-auto object-cover">
+                </div>
+                <!-- REMOVED: Meme 5 was here -->
+                <!-- Meme 6 -->
+                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://pbs.twimg.com/media/G4HkSIzXEAAefKu?format=jpg&name=240x240" alt="HWIF Meme 6" class="w-full h-auto object-cover">
+                </div>
+                <!-- Meme 7 -->
+                <div class="bg-black/50 rounded-lg overflow-hidden border-2 border-orange-700/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://pbs.twimg.com/media/G4HkdypWEAAaTCj?format=jpg&name=240x240" alt="HWIF Meme 7" class="w-full h-auto object-cover">
+                </div>
+
+            </div>
+        </section>
+
         <!-- How to Buy Section -->
         <section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12 text-gray-200 mb-12">
             <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
@@ -191,19 +232,21 @@
                     <h3 class="inline text-3xl font-bold text-white/90">Swap for the Pumpkin</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         Paste the official contract address (found in the header) into the swap field. Select the amount of $SOL you wish to exchange and click 'Swap'. Welcome to the $HWIF haunting!
-                    </p>
+                    </sppan>
                 </li>
             </ol>
         </section>
 
         <!-- ADDED: Dexscreener Chart Section -->
-        <section id="chart" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200">
+        <section id="chart" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-4 md:p-8 text-gray-200 mb-12">
             <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
                 Live Chart
             </h2>
             <!-- User's Embed Code - UPDATED iframe src to match new CA -->
             <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/GMRMTNXrJJjD9mqBShwgy26XdZRTbamwWxNV1muXpump?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
         </section>
+
+        <!-- MOVED: Memes Section was here -->
 
         <!-- Footer -->
         <footer class="mt-12 text-center text-sm text-gray-900 p-4 border-t border-orange-900/50">
@@ -321,4 +364,5 @@
     </script>
 </body>
 </html>
+
 
