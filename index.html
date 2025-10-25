@@ -4,25 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$HWIF - HalloWIF: Dog Wif Pumpkin Hat</title>
-  <link rel="icon" type="image/png" href="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360">
+    <link rel="icon" type="image/png" href="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360">
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load spooky Google Font (Nosifier used as a substitute for Jeepers) -->
-    <link href="https://fonts.googleapis.com/css2?family=Nosifier&display=swap" rel="stylesheet">
+    <!-- Load spooky Google Font (Creepster for headings, Inter for body text) -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Custom font application and general dark theme */
         body {
-            font-family: 'Nosifier', cursive;
-            background-color: #000000;
-            color: #FF8C00; /* Dark Orange accent color */
+            /* Set background to the requested orange */
+            background-color: #FF8C00; 
+            color: #000000; /* Default text color set to black for orange background */
             min-height: 100vh;
+            font-family: 'Inter', sans-serif; /* Readable font for body text */
+            position: relative; /* Needed for absolute positioning of bats */
+            overflow-x: hidden; /* Prevent horizontal scroll from bat animation */
         }
+        
+        h1, h2 {
+            font-family: 'Creepster', cursive; /* Spooky font for headings */
+        }
+
+        /* Bat Animation CSS */
+        .bat {
+            position: absolute;
+            font-size: 2rem;
+            color: #000000; /* Black bats on orange background */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            animation-duration: 20s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            z-index: 0;
+            opacity: 0.8;
+            /* Ensure bats start outside the visible area */
+            will-change: transform;
+        }
+
+        /* Define a base flying keyframe for variety */
+        @keyframes fly-base {
+            0% { transform: translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh)) scale(1); }
+            50% { transform: translate(calc(var(--mid-x) * 1vw), calc(var(--mid-y) * 1vh)) scale(var(--scale-mid)); }
+            100% { transform: translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh)) scale(1); }
+        }
+
         /* Style for the banner to ensure good coverage and aesthetics */
         .banner {
             height: 350px; /* Fixed height for visual impact on desktop */
             background-image: url('https://pbs.twimg.com/media/G4HPm65WAAAswEt?format=jpg&name=900x900');
             background-size: cover;
             background-position: center 20%;
+            position: relative; /* Bring banner above bats */
         }
         /* Style for the logo container */
         .logo-container {
@@ -33,14 +64,16 @@
             border: 4px solid #FF4500; /* OrangeRed border */
             box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
             transition: transform 0.3s ease;
+            flex-shrink: 0;
         }
         .logo-container:hover {
              transform: scale(1.05);
         }
 
-        .nav-link {
-            @apply text-lg font-bold text-orange-400 hover:text-orange-200 transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-900/40;
-        }
+        /* Removed .nav-link and .ticker-color classes. 
+           Colors are now applied directly in the HTML using Tailwind classes 
+           (e.g., text-orange-500) for better visibility and easier maintenance.
+        */
 
         /* Responsive adjustments for banner on smaller screens */
         @media (max-width: 768px) {
@@ -52,6 +85,10 @@
 </head>
 <body class="antialiased">
 
+    <!-- Flying Bat Emojis (Visual effect layer) -->
+    <!-- The bats are dynamically added by the JavaScript block below -->
+    <div class="bat-layer"></div>
+
     <!-- Header / Navbar -->
     <header class="sticky top-0 z-50 bg-black/95 backdrop-blur-sm shadow-2xl shadow-orange-900/50 border-b border-orange-700/50 p-4">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
@@ -59,22 +96,23 @@
             <!-- Logo and Ticker -->
             <div class="flex items-center space-x-3 mb-4 md:mb-0">
                 <div class="logo-container flex-shrink-0">
-                    <!-- The NEW uploaded logo image, styled for a circular frame -->
                     <img src="https://pbs.twimg.com/media/G4HPm6_W8AA_wr4?format=jpg&name=360x360" alt="HWIF Logo - Dog with Pumpkin Hat" class="w-full h-full object-cover">
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-[#FFA500] tracking-widest uppercase">
+                <!-- H1 color changed to text-orange-500 for visibility -->
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-orange-500 tracking-widest uppercase">
                     $HWIF
                 </h1>
             </div>
             
             <!-- Navigation Links -->
             <nav class="flex space-x-4">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#how-to-buy" class="nav-link">How to Buy</a>
+                <!-- Nav Link colors changed to text-orange-500 for visibility -->
+                <a href="#about" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">About</a>
+                <a href="#how-to-buy" class="text-lg font-bold text-orange-500 hover:text-white transition duration-200 uppercase tracking-widest px-3 py-1 rounded-md hover:bg-orange-800/40">How to Buy</a>
                 <!-- X.com Link Placeholder -->
-                <a href="#" class="nav-link p-1.5" aria-label="Follow us on X">
-                    <!-- X Logo (Using a standard SVG, often called Twitter/X icon) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-orange-400 hover:text-orange-200 transition">
+                <a href="#" class="text-orange-500 hover:text-white transition duration-200 p-1.5 rounded-md hover:bg-orange-800/40" aria-label="Follow us on X">
+                    <!-- X Logo (Color inherits from <a> tag) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M18.901 1.144h3.582l-7.98 9.176 9.68 12.015h-8.24l-6.19-7.724-7.53 7.724H.742l8.3-8.525L.194 1.144h8.422l5.445 6.442 5.04-6.442zm-1.16 2.013L9.123 20.37h1.996l8.62-10.428-1.996-2.013z"/>
                     </svg>
                 </a>
@@ -82,8 +120,10 @@
 
             <!-- Contract Address -->
             <div class="mt-4 md:mt-0 text-right w-full md:w-auto">
+                <!-- Contract address label remains light gray for readability -->
                 <p class="text-sm font-light text-gray-400">Solana Contract Address:</p>
-                <code id="contract-address" class="block p-2 text-xs sm:text-sm md:text-base bg-orange-900/40 rounded-lg cursor-pointer hover:bg-orange-800/60 transition duration-300 shadow-inner" onclick="copyContractAddress()">
+                <!-- Address code color changed to text-orange-500 for visibility -->
+                <code id="contract-address" class="block p-2 text-xs sm:text-sm md:text-base bg-orange-900/40 rounded-lg cursor-pointer hover:bg-orange-800/60 transition duration-300 shadow-inner text-orange-500" onclick="copyContractAddress()">
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                 </code>
             </div>
@@ -92,27 +132,26 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto p-4 sm:p-8">
+    <main class="max-w-7xl mx-auto p-4 sm:p-8 relative z-10">
 
         <!-- Banner Section -->
         <section class="banner w-full rounded-xl overflow-hidden mb-12 shadow-2xl shadow-orange-900/80"></section>
 
         <!-- About Section -->
-        <section id="about" class="text-center py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 mb-12">
+        <section id="about" class="text-center py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 mb-12 text-gray-200">
             <h2 class="text-5xl sm:text-7xl mb-4 font-bold text-[#FF4500] uppercase tracking-wide animate-pulse">
                 HalloWIF: Dog Wif Pumpkin Hat
             </h2>
-            <p class="text-2xl sm:text-3xl text-gray-200 mt-6 max-w-4xl mx-auto leading-relaxed">
+            <p class="text-2xl sm:text-3xl mt-6 max-w-4xl mx-auto leading-relaxed">
                 In the darkest, spookiest corners of the Solana blockchain, the legend of Dog Wif Hat evolved. Forget the beanie—<span class="text-[#FFA500]">$HWIF</span> is here, ready to haunt your portfolio with pumpkin spice volatility!
             </p>
             <p class="text-xl sm:text-2xl text-[#FF8C00] mt-4 max-w-3xl mx-auto italic font-normal">
                 This isn't just a coin; it's a costume party for your crypto, starring a Shiba Inu that's gone full Jack-o'-lantern. Get in, we're going trick-or-treating... for lambos.
             </p>
-            <!-- REMOVED: Buy The Spook Button -->
         </section>
         
         <!-- How to Buy Section -->
-        <section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12">
+        <section id="how-to-buy" class="py-10 bg-black/80 rounded-xl border-4 border-orange-900/50 shadow-inner shadow-orange-500/20 p-8 md:p-12 text-gray-200">
             <h2 class="text-4xl sm:text-5xl mb-10 font-bold text-[#FF4500] uppercase tracking-wide text-center">
                 How to Summon $HWIF (4 Simple Steps)
             </h2>
@@ -120,16 +159,16 @@
             <ol class="space-y-8 max-w-4xl mx-auto text-left">
                 <!-- Step 1 -->
                 <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
-                    <span class="text-3xl font-extrabold text-[#FFA500] mr-4">1.</span>
+                    <span class="text-3xl font-extrabold text-[#FF4500] mr-4">1.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Get a Solana Wallet</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         First, secure your spiritual holdings! Download Phantom, Solflare, or any Solana-compatible wallet. This is where your $HWIF will rest (or haunt).
-                    </p>
+                    </D>
                 </li>
                 
                 <!-- Step 2 -->
                 <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
-                    <span class="text-3xl font-extrabold text-[#FFA500] mr-4">2.</span>
+                    <span class="text-3xl font-extrabold text-[#FF4500] mr-4">2.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Acquire the $SOL Sacrifice</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         Purchase Solana ($SOL) from any major exchange (Coinbase, Binance, etc.) and send it to your spooky new wallet address. You'll need this to swap.
@@ -138,7 +177,7 @@
                 
                 <!-- Step 3 -->
                 <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
-                    <span class="text-3xl font-extrabold text-[#FFA500] mr-4">3.</span>
+                    <span class="text-3xl font-extrabold text-[#FF4500] mr-4">3.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Visit the Underworld Exchange</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         Go to a decentralized exchange (DEX) aggregator like Jupiter or directly to Raydium. Connect your wallet to the platform.
@@ -147,7 +186,7 @@
 
                 <!-- Step 4 -->
                 <li class="p-6 bg-orange-900/30 rounded-xl shadow-lg border border-orange-700/50">
-                    <span class="text-3xl font-extrabold text-[#FFA500] mr-4">4.</span>
+                    <span class="text-3xl font-extrabold text-[#FF4500] mr-4">4.</span>
                     <h3 class="inline text-3xl font-bold text-white/90">Swap for the Pumpkin</h3>
                     <p class="text-xl text-gray-300 mt-2 ml-10">
                         Paste the official contract address (found in the header) into the swap field. Select the amount of $SOL you wish to exchange and click 'Swap'. Welcome to the $HWIF haunting!
@@ -156,14 +195,71 @@
             </ol>
         </section>
 
-        <!-- Tokenomics/Footer Placeholder -->
-        <footer class="mt-12 text-center text-sm text-gray-500 p-4 border-t border-orange-900/50">
-            <p>&copy; 2025 HWIF. All rights reserved. Trade at your own fright.</p>
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm text-gray-900 p-4 border-t border-orange-900/50">
+            <p class="text-black/70">&copy; 2025 HWIF. All rights reserved. Trade at your own fright.</p>
         </footer>
 
     </main>
 
     <script>
+        // --- Bat Animation Logic ---
+        // Generates and inserts 30 bat emojis with unique animation styles
+        document.addEventListener('DOMContentLoaded', () => {
+            const batLayer = document.querySelector('.bat-layer');
+            const batCount = 30;
+            const styleSheet = document.createElement('style');
+            let batStyles = '';
+
+            for (let i = 1; i <= batCount; i++) {
+                // Create bat element
+                const bat = document.createElement('span');
+                bat.className = 'bat';
+                bat.textContent = '🦇'; // Bat emoji
+                batLayer.appendChild(bat);
+
+                // Generate unique random CSS variables for position, duration, and delay
+                const duration = 15 + Math.random() * 20; // 15s to 35s
+                const delay = Math.random() * 30; // 0s to 30s
+                const size = 1.5 + Math.random() * 1.5; // 1.5rem to 3rem
+                const opacity = 0.5 + Math.random() * 0.5; // 0.5 to 1.0
+
+                // Define fly path coordinates (from -50 to 150 to ensure off-screen travel)
+                // This ensures bats start and end off-screen
+                const startX = -50 + Math.random() * 150;
+                const startY = -50 + Math.random() * 150;
+                const midX = -50 + Math.random() * 150;
+                const midY = -50 + Math.random() * 150;
+                const endX = -50 + Math.random() * 150;
+                const endY = -50 + Math.random() * 150;
+
+                // Random flip
+                const scaleMid = (Math.random() > 0.5 ? 1 : -1); 
+
+                batStyles += `
+                    .bat:nth-child(${i}) { 
+                        --start-x: ${startX};
+                        --start-y: ${startY};
+                        --mid-x: ${midX};
+                        --mid-y: ${midY};
+                        --end-x: ${endX};
+                        --end-y: ${endY};
+                        --scale-mid: ${scaleMid};
+                        animation-name: fly-base; 
+                        animation-duration: ${duration}s; 
+                        animation-delay: ${delay}s; 
+                        font-size: ${size}rem;
+                        opacity: ${opacity};
+                    }
+                `;
+            }
+
+            styleSheet.innerHTML = batStyles;
+            document.head.appendChild(styleSheet);
+        });
+        
+        // --- Utility Functions ---
+
         // Function to copy the contract address to the clipboard
         function copyContractAddress() {
             const contractAddress = document.getElementById('contract-address').innerText.trim();
@@ -189,12 +285,14 @@
             if (!messageBox) {
                 messageBox = document.createElement('div');
                 messageBox.id = 'message-box';
-                messageBox.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-xl z-[100] transition-opacity duration-300';
+                messageBox.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-xl z-[100] transition-opacity duration-300 opacity-0 pointer-events-none';
                 document.body.appendChild(messageBox);
             }
 
             messageBox.textContent = message;
-            messageBox.style.opacity = '1';
+            messageBox.classList.remove('opacity-0', 'pointer-events-none');
+            messageBox.classList.add('opacity-100');
+
 
             if (type === 'success') {
                 messageBox.style.backgroundColor = '#16a34a'; // Green-700
@@ -206,9 +304,11 @@
 
             // Automatically hide after 3 seconds
             setTimeout(() => {
-                messageBox.style.opacity = '0';
+                messageBox.classList.remove('opacity-100');
+                messageBox.classList.add('opacity-0', 'pointer-events-none');
             }, 3000);
         }
     </script>
 </body>
 </html>
+
